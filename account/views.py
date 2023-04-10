@@ -66,7 +66,7 @@ class PasswordResetView(APIView):
         try:
             email = request.data['email']
             user = User.objects.get(email=email)
-            if user.activation_code is not None and user.activation_codecode != '':
+            if user.activation_code is not None and user.activation_code != '':
                 return Response({'msg': 'Code already sent, please check your inbox!'}, status=200)
             user.activation_code = uuid.uuid4()
             user.save()

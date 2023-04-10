@@ -68,7 +68,7 @@ class PasswordResetSerializer(serializers.Serializer):
             raise serializers.ValidationError('Passwords didn\'t match!')
         if password == User.password:
             raise serializers.ValidationError('Password cant be previous!')
-        user = User.objects.get(password_reset_code=attrs['password_reset_code'])
+        user = User.objects.get(activation_code=attrs['password_reset_code'])
         user.set_password(password)
         password_change_notification(user.email,)
         user.save()
@@ -76,8 +76,8 @@ class PasswordResetSerializer(serializers.Serializer):
 
     def save(self, **kwargs):
         try:
-            user = User.objects.get(password_reset_code=self.password_reset_code)
-            user.password_reset_code = None
+            user = User.objects.get(activation_code=self.password_reset_code)
+            user.activation_code = ''
             user.save()
         except User.DoesNotExist:
             self.fail('bad_code')

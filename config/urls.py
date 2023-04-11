@@ -8,11 +8,11 @@ from django.conf.urls.static import static
 
 schema_view = get_schema_view(
    openapi.Info(
-      title="online Book test",
+      title="HACKATHON DOCS",
       default_version='v1',
-      description="Test API BackEnd for OnlineBookAPI by py.26",
+      description="API DOCS for hackathon project",
       terms_of_service="https://www.google.com/policies/terms/",
-      contact=openapi.Contact(email="contact@snippets.local"),
+      contact=openapi.Contact(email="abass@ali.com"),
       license=openapi.License(name="BSD License"),
    ),
    public=True,

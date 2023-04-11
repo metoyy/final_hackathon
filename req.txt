@@ -9,4 +9,4 @@ pyjwt
 redis
 celery
 tzlocal
-
+django-allauth

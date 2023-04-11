@@ -2,7 +2,7 @@ from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
-from account.sendmail import password_change_notification
+from .tasks import *
 
 User = get_user_model()
 
@@ -46,8 +46,10 @@ class ActivationSerializer(serializers.Serializer):
         try:
             user = User.objects.get(activation_code=self.code)
             user.is_active = True
-            user.activation_code = ''
+            user.activation_code = None
             user.save()
+            send_welcome_message.delay(user.email,)
+
         except User.DoesNotExist:
             self.fail('bad_code')
 
@@ -70,7 +72,7 @@ class PasswordResetSerializer(serializers.Serializer):
             raise serializers.ValidationError('Password cant be previous!')
         user = User.objects.get(activation_code=attrs['password_reset_code'])
         user.set_password(password)
-        password_change_notification(user.email,)
+        password_change_notification.delay(user.email,)
         user.save()
         return attrs
 

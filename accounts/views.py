@@ -11,8 +11,8 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, ListAPIView
 import django.db.utils
 
-from account.sendmail import send_confirmation_mail, send_password_reset_mail
-from account import serializers
+from accounts.tasks import send_confirmation_mail, send_password_reset_mail
+from accounts import serializers
 
 User = get_user_model()
 
@@ -30,7 +30,7 @@ class RegistrationView(APIView):
             return Response({'msg': 'Something went wrong, check input please'}, status=400)
         if user:
             try:
-                send_confirmation_mail(user.email, user.activation_code)
+                send_confirmation_mail.delay(user.email, user.activation_code)
                 return Response({'msg': "Check your email for confirmation!"})
             except:
                 return Response({'msg': 'Registered but could not send email.',
@@ -72,7 +72,7 @@ class PasswordResetView(APIView):
             user.save()
         except User.DoesNotExist:
             return Response({'msg': 'Invalid email or not found!'}, status=400)
-        send_password_reset_mail(user.email, user.activation_code)
+        send_password_reset_mail.delay(user.email, user.activation_code)
         return Response({'msg': 'Confirmation code sent!'}, status=200)
 
     @staticmethod

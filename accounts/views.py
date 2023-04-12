@@ -11,6 +11,8 @@ from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, ListAPIView
 import django.db.utils
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
 
 from accounts.tasks import send_confirmation_mail, send_password_reset_mail
 from accounts import serializers
@@ -58,6 +60,20 @@ class UserListApiView(ListAPIView):
 
 class LoginView(TokenObtainPairView):
     permission_classes = (permissions.AllowAny,)
+
+
+class LogoutView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
 
 
 class PasswordResetView(APIView):

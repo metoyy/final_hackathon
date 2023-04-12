@@ -5,6 +5,7 @@ venv
 .env
 =======
 .idea/
+.idea
 
 # Django #
 *.log

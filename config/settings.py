@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django.contrib.sites',
     'drf_yasg',
-
+    'accounts',
     'course',
     'favorite',
     'review',
@@ -61,8 +61,6 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-
-    'accounts',
 ]
 
 MIDDLEWARE = [

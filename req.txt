@@ -10,3 +10,4 @@ redis
 celery
 tzlocal
 django-allauth
+django-filter

@@ -1,6 +1,4 @@
-from django.shortcuts import render
 
-# Create your views here.
 import uuid
 
 from rest_framework_simplejwt.views import TokenObtainPairView

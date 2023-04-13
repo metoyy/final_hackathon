@@ -1,3 +1,4 @@
+from django.db.models import Avg
 from rest_framework import serializers
 
 from category.models import Category
@@ -8,16 +9,17 @@ class CourseImagesSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseImages
         fields = '__all__'
+
 class CoursesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ('title', 'category', 'duration_months')
 
-    # def to_representation(self, instance):
-    #     repr = super().to_representation(instance)
-    #     repr['reviews count'] = instance.reviews.count()
-    #     repr['average rating for this product'] = instance.reviews.aggregate(Avg('rating_score'))['rating_score__avg']
-    #     return repr
+    def to_representation(self, instance):
+        repr = super().to_representation(instance)
+        repr['reviews count'] = instance.reviews.count()
+        repr['average rating for this product'] = instance.reviews.aggregate(Avg('rating_score'))['rating_score__avg']
+        return repr
 
 
 class CourseCreateSerializer(serializers.ModelSerializer):

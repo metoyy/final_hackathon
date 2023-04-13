@@ -6,7 +6,7 @@ venv
 =======
 .idea/
 .idea
-
+images/
 # Django #
 *.log
 *.pot

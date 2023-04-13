@@ -7,9 +7,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-
-
-# Create your models here.
 class Course(models.Model):
     title = models.CharField(max_length=250, unique=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)

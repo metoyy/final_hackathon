@@ -102,3 +102,10 @@ class PasswordResetView(APIView):
         except User.DoesNotExist:
             return Response({'msg': 'Code expired or invalid!'}, status=400)
         return Response({'msg': 'Successfully changed password!'}, status=200)
+    
+
+class LoginSuccess(APIView):
+    @staticmethod
+    def get(request):
+        return Response({'msg': 'Login success'}, status=200)
+    

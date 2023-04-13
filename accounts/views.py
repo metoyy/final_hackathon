@@ -8,6 +8,9 @@ from django.contrib.auth import get_user_model
 from rest_framework.response import Response
 from rest_framework.generics import GenericAPIView, ListAPIView
 import django.db.utils
+from drf_yasg.utils import swagger_auto_schema
+from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework import status
 
 from accounts.tasks import send_confirmation_mail, send_password_reset_mail
 from accounts import serializers
@@ -19,6 +22,7 @@ class RegistrationView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
+    @swagger_auto_schema(responses={200: serializers.RegistrationSerializer})
     def post(request):
         try:
             serializer = serializers.RegistrationSerializer(data=request.data)
@@ -56,10 +60,25 @@ class LoginView(TokenObtainPairView):
     permission_classes = (permissions.AllowAny,)
 
 
+class LogoutView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request):
+        try:
+            refresh_token = request.data["refresh_token"]
+            token = RefreshToken(refresh_token)
+            token.blacklist()
+
+            return Response(status=status.HTTP_205_RESET_CONTENT)
+        except Exception as e:
+            return Response(status=status.HTTP_400_BAD_REQUEST)
+
+
 class PasswordResetView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
+    @swagger_auto_schema(responses={200: 'Принимает email в виде: "email: example@example.com", и отправляет письмо, если email найден'})
     def post(request):
         try:
             email = request.data['email']
@@ -74,6 +93,7 @@ class PasswordResetView(APIView):
         return Response({'msg': 'Confirmation code sent!'}, status=200)
 
     @staticmethod
+    @swagger_auto_schema(responses={200: serializers.PasswordResetSerializer})
     def put(request):
         try:
             serializer = serializers.PasswordResetSerializer(data=request.data)

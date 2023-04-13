@@ -50,12 +50,16 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django.contrib.sites',
     'drf_yasg',
+<<<<<<< HEAD
     'accounts',
     'course',
     'favorite',
     'review',
     'category',
     'mentors',
+=======
+    'corsheaders',
+>>>>>>> 207c93debd1c9532346f1648712c1c59bfabc8b9
 
     'allauth',
     'allauth.account',
@@ -64,6 +68,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -110,10 +115,9 @@ SOCIALACCOUNT_PROVIDERS = {
         'OAUTH_PKCE_ENABLED': True,
     }
 }
+CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED').split(' ')
 
-
-
-
+ACCOUNT_SIGNUP_REDIRECT_URL = '/all-auth/password/set/'
 
 
 # Database

@@ -11,3 +11,5 @@ celery
 tzlocal
 django-allauth
 django-filter
+django-cors-headers
+

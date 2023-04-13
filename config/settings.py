@@ -50,15 +50,19 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django.contrib.sites',
     'drf_yasg',
+    'accounts',
+    'course',
+    'favorite',
+    'review',
+    'category',
+    'mentors',
+    'like',
     'corsheaders',
 
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.google',
-
-    'accounts',
-
 ]
 
 MIDDLEWARE = [
@@ -110,8 +114,12 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED').split(' ')
+CORS_ALLOW_ALL_ORIGINS = True
 
 ACCOUNT_SIGNUP_REDIRECT_URL = '/all-auth/password/set/'
+LOGIN_REDIRECT_URL = '/api/accounts/login-success/'
+SOCIALACCOUNT_STORE_TOKENS = True
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost']
 
 
 # Database
@@ -153,7 +161,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 

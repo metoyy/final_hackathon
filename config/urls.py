@@ -25,13 +25,13 @@ urlpatterns = [
     path('docs/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
     path('admin/', admin.site.urls),
-    path('api/v1/accounts/', include('accounts.urls')),
+    path('api/accounts/', include('accounts.urls')),
     path('all-auth/', include('allauth.urls')),
 
-    # path('api/v1/categories/', include('category.urls')),
-    # path('api/v1/products/', include('product.urls')),
-    # path('api/v1/reviews/', include('review.urls')),
-    # path('api/v1/cart/', include('cart.urls')),
+    path('api/categories/', include('category.urls')),
+    path('api/courses/', include('course.urls')),
+    path('api/reviews/', include('review.urls')),
+
 ]
 
 urlpatterns += static(

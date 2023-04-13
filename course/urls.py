@@ -1,4 +1,4 @@
-
+from review.views import CourseReviewListView
 from django.urls import path, include
 from . import views
 from like.views import *
@@ -11,4 +11,5 @@ urlpatterns = [
     path('', include(router.urls)),
     path('<int:pk>/add_fav/', views.FavoriteAddOrDeletePost.as_view()),
     path('<int:pk>/like/', LikeCreateDeleteView.as_view()),
+    path('<int:pk>/reviews/', CourseReviewListView.as_view()),
 ]

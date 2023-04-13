@@ -9,11 +9,7 @@ class ReviewCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('username', 'rating_score', 'body', 'created_at', 'course_id')
-
-    def create(self, validated_data):
-        review = Review.objects.create(**validated_data)
-        return review
+        fields = ('id', 'username', 'rating_score', 'body', 'course_id', 'created_at')
 
 
 class ReviewDetailSerializer(serializers.ModelSerializer):
@@ -21,5 +17,15 @@ class ReviewDetailSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('user', 'rating_score', 'body', 'created_at')
+        fields = ('id', 'user', 'rating_score', 'body', 'created_at', 'user_email')
 
+
+class MyReviewsSerializer(serializers.ModelSerializer):
+    course_id = serializers.ReadOnlyField(source='course.id')
+    course_name = serializers.ReadOnlyField(source='course.title')
+    username = serializers.ReadOnlyField(source='user.username')
+
+    class Meta:
+        model = Review
+        fields = ('id', 'username', 'rating_score', 'body',
+                  'created_at', 'course_id', 'course_name')

@@ -15,6 +15,7 @@ class StandardResultPagination(PageNumberPagination):
     page_size = 10
     page_query_param = 'page'
 
+
 class CoursesViewSet(ModelViewSet):
     queryset = Course.objects.all()
     pagination_class = StandardResultPagination
@@ -26,8 +27,6 @@ class CoursesViewSet(ModelViewSet):
         if self.action == 'create':
             return serializers.CourseCreateSerializer
         return serializers.CoursesListSerializer
-
-
 
     def get_permissions(self):
         if self.action in ('destroy', 'create', 'update', 'partial_update'):

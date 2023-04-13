@@ -114,6 +114,7 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED').split(' ')
+CORS_ALLOW_ALL_ORIGINS = True
 
 ACCOUNT_SIGNUP_REDIRECT_URL = '/all-auth/password/set/'
 LOGIN_REDIRECT_URL = '/api/accounts/login-success/'

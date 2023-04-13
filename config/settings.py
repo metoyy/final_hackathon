@@ -112,6 +112,8 @@ SOCIALACCOUNT_PROVIDERS = {
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED').split(' ')
 
 ACCOUNT_SIGNUP_REDIRECT_URL = '/all-auth/password/set/'
+LOGIN_REDIRECT_URL = '/api/v1/accounts/login-success/'
+SOCIALACCOUNT_STORE_TOKENS = True
 
 
 # Database
@@ -153,7 +155,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 

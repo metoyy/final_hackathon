@@ -14,6 +14,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='course',
             name='cover',
-            field=models.ImageField(blank=True, null=True, upload_to=course.models.get_directory_path),
+            field=models.ImageField(blank=True, null=True, upload_to='images/'),
         ),
     ]

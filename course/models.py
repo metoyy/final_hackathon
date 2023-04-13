@@ -7,8 +7,6 @@ from django.contrib.auth import get_user_model
 User = get_user_model()
 
 
-def get_directory_path(ins, file):
-    return 'images/courses/cover/user_{0}/{1}'.format(ins.user.id, file)
 
 
 # Create your models here.
@@ -20,7 +18,7 @@ class Course(models.Model):
     languages = models.ForeignKey(Language, on_delete=models.RESTRICT, related_name='languages')
     mentors = models.ForeignKey(Mentor, on_delete=models.RESTRICT, related_name='mentors')
     duration_months = models.IntegerField(default=3)
-    cover = models.ImageField(upload_to=get_directory_path, null=True, blank=True)
+    cover = models.ImageField(upload_to='images/covers/', null=True, blank=True)
     favorite = models.ManyToManyField(User, related_name='favorites', blank=True)
 
     def __str__(self):
@@ -33,7 +31,7 @@ class Course(models.Model):
 
 class CourseImages(models.Model):
     title = models.CharField(max_length=150, blank=True)
-    image = models.ImageField(upload_to='images/')
+    image = models.ImageField(upload_to='images/course_images/')
     course = models.ForeignKey(Course, related_name='images', on_delete=models.CASCADE)
 
     def generate_name(self):

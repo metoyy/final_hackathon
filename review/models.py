@@ -19,5 +19,6 @@ class Review(models.Model):
 
     class Meta:
         unique_together = ['user', 'course']
+
     def __str__(self):
         return f'User {self.user}\'s review on {self.course.title}'

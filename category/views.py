@@ -31,9 +31,10 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
 
     @action(['GET'], detail=True)
     def courses(self, request, pk):
+        self.request = request
         category = self.get_object()
         courses = category.courses.all()
-        serializer = CoursesListSerializer(instance=courses, many=True)
+        serializer = CoursesListSerializer(instance=courses, many=True, context={'request': request})
         return Response(serializer.data, status=200)
 
     @action(['DELETE'], detail=True)

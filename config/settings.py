@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'review',
     'category',
     'mentors',
+    'like',
     'corsheaders',
 
     'allauth',
@@ -115,8 +116,9 @@ SOCIALACCOUNT_PROVIDERS = {
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED').split(' ')
 
 ACCOUNT_SIGNUP_REDIRECT_URL = '/all-auth/password/set/'
-LOGIN_REDIRECT_URL = '/api/v1/accounts/login-success/'
+LOGIN_REDIRECT_URL = '/api/accounts/login-success/'
 SOCIALACCOUNT_STORE_TOKENS = True
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost']
 
 
 # Database

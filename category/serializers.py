@@ -19,5 +19,5 @@ class CategoryDetailsSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         repr = super().to_representation(instance)
         repr['courses count'] = instance.courses.count()
-        repr['courses'] = CoursesListSerializer(instance=instance.courses.all(), many=True).data
+        repr['courses'] = CoursesListSerializer(instance=instance.courses.all(), many=True, context=self.context).data
         return repr

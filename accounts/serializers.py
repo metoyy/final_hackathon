@@ -1,15 +1,17 @@
 from rest_framework import serializers
-from django.contrib.auth.models import User
 from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from .tasks import *
 
+
 User = get_user_model()
+
 
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         exclude = ('password',)
+
 
 class RegistrationSerializer(serializers.ModelSerializer):
     password = serializers.CharField(min_length=8, required=True, write_only=True)
@@ -29,7 +31,6 @@ class RegistrationSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user = User.objects.create_user(**validated_data)
         return user
-
 
 
 class ActivationSerializer(serializers.Serializer):

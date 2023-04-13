@@ -30,6 +30,7 @@ def send_password_reset_mail(user, code):
         fail_silently=False,
     )
 
+
 @shared_task
 def password_change_notification(user):
     send_mail(

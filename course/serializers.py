@@ -11,6 +11,7 @@ class CourseImagesSerializer(serializers.ModelSerializer):
         model = CourseImages
         fields = '__all__'
 
+
 class CoursesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
@@ -41,9 +42,10 @@ class CourseCreateSerializer(serializers.ModelSerializer):
     course = serializers.PrimaryKeyRelatedField(required=True, queryset=Course.objects.all())
     category = serializers.PrimaryKeyRelatedField(required=True, queryset=Category.objects.all())
     book_cover = CourseImagesSerializer(many=True, required=False)
+
     class Meta:
         model = Course
-        fields = ('title', 'mentors', 'category', 'cover', 'price', 'languages', 'duration_months')
+        fields = ('course', 'title', 'mentors', 'category', 'cover', 'price', 'languages', 'duration_months', 'book_cover')
 
     def create(self, validated_data):
         request = self.context.get('request')

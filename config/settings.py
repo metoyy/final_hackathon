@@ -50,16 +50,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django.contrib.sites',
     'drf_yasg',
-<<<<<<< HEAD
     'accounts',
     'course',
     'favorite',
     'review',
     'category',
     'mentors',
-=======
     'corsheaders',
->>>>>>> 207c93debd1c9532346f1648712c1c59bfabc8b9
 
     'allauth',
     'allauth.account',

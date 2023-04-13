@@ -1,11 +1,7 @@
 .idea
 .idea/
 venv
-<<<<<<< HEAD
 .env
-=======
-.idea/
-.idea
 images/
 # Django #
 *.log
@@ -13,7 +9,7 @@ images/
 *.pyc
 __pycache__
 db.sqlite3
-media
+media/
 
 # Backup files # 
 *.bak 
@@ -144,5 +140,3 @@ GitHub.sublime-settings
 !.vscode/launch.json 
 !.vscode/extensions.json 
 .history
-
->>>>>>> 43e2a8d (modified gitignore)

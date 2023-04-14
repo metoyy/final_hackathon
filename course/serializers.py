@@ -2,7 +2,7 @@ from django.db.models import Avg
 from rest_framework import serializers
 from django.contrib.auth.models import AnonymousUser
 
-from category.models import Category
+from category.models import Category, Language
 from course.models import Course, CourseImages
 
 
@@ -15,7 +15,7 @@ class CourseImagesSerializer(serializers.ModelSerializer):
 class CoursesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ('id', 'title', 'category', 'duration_months')
+        fields = ('id', 'title', 'category', 'duration_months', 'language')
 
     def to_representation(self, instance):
         repr = super().to_representation(instance)
@@ -40,11 +40,12 @@ class CoursesListSerializer(serializers.ModelSerializer):
 
 class CourseCreateSerializer(serializers.ModelSerializer):
     category = serializers.PrimaryKeyRelatedField(required=True, queryset=Category.objects.all())
+    language = serializers.PrimaryKeyRelatedField(required=True, queryset=Language.objects.all())
 
     class Meta:
         model = Course
         fields = ('title', 'mentors', 'category', 'cover',
-                  'price', 'duration_months', 'mentors', 'description')
+                  'price', 'duration_months', 'description', 'language')
 
     def create(self, validated_data):
         request = self.context.get('request')

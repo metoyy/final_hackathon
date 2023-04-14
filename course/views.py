@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
@@ -46,5 +47,14 @@ if course.favorite.exists() else \
 Response({'msg': 'Successfully deleted post of favorites'})
 
 
-
+class FavoriteCourseListView(APIView):
+    permission_classes = permissions.IsAuthenticated,
+    
+    def get(self, request):
+        user = request.user
+        courses = user.favorites.all()
+        print(courses)
+        serializer = serializers.CoursesListSerializer(instance=courses, many=True,
+                                                       context={'request': request})
+        return Response(serializer.data, status=200)
 

@@ -1,4 +1,5 @@
 from rest_framework import permissions
+from rest_framework.views import APIView
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter
@@ -31,8 +32,6 @@ class CoursesViewSet(ModelViewSet):
         if self.action in ('destroy', 'create', 'update', 'partial_update'):
             return [permissions.IsAdminUser()]
         return [permissions.AllowAny()]
-
-
 
 
 

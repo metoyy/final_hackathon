@@ -12,7 +12,6 @@ class Course(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True, related_name='courses')
     id = models.AutoField(primary_key=True)
-    languages = models.ForeignKey(Language, on_delete=models.RESTRICT, related_name='languages')
     mentors = models.ForeignKey(Mentor, on_delete=models.RESTRICT, related_name='mentors')
     duration_months = models.IntegerField(default=3)
     cover = models.ImageField(upload_to='images/covers/', null=True, blank=True)

@@ -49,7 +49,7 @@ Response({'msg': 'Successfully deleted post of favorites'})
 
 class FavoriteCourseListView(APIView):
     permission_classes = permissions.IsAuthenticated,
-    
+
     def get(self, request):
         user = request.user
         courses = user.favorites.all()

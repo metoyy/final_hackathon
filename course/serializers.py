@@ -44,7 +44,7 @@ class CourseCreateSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
         fields = ('title', 'mentors', 'category', 'cover',
-                  'price', 'duration_months')
+                  'price', 'duration_months', 'mentor', 'description')
 
     def create(self, validated_data):
         request = self.context.get('request')

@@ -1,10 +1,11 @@
 from django.shortcuts import render
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import generics, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from rest_framework.views import APIView
 
-
-from category.models import Category
+from category.models import Category, Language
 from course.serializers import CoursesListSerializer
 from . import serializers
 
@@ -43,3 +44,13 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
         instance.delete()
         category.delete()
         return Response('Deleted!', status=201)
+
+
+class LanguageListView(APIView):
+    permission_classes = permissions.AllowAny,
+
+    @swagger_auto_schema
+    def get(self, request):
+        queryset = Language.objects.all()
+        serializer = serializers.LanguageListSerializer(instance=queryset, many=True)
+        return Response(serializer.data, status=200)

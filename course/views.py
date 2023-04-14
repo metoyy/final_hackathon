@@ -1,3 +1,4 @@
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
@@ -21,7 +22,7 @@ class CoursesViewSet(ModelViewSet):
     pagination_class = StandardResultPagination
     filter_backends = (SearchFilter, DjangoFilterBackend)
     search_fields = ('title',)
-    filterset_fields = ('price', 'category', 'languages',)
+    filterset_fields = ('price', 'category', 'language',)
 
     def get_serializer_class(self):
         if self.action == 'create':
@@ -46,5 +47,14 @@ if course.favorite.exists() else \
 Response({'msg': 'Successfully deleted post of favorites'})
 
 
+class FavoriteCourseListView(APIView):
+    permission_classes = permissions.IsAuthenticated,
 
+    def get(self, request):
+        user = request.user
+        courses = user.favorites.all()
+        print(courses)
+        serializer = serializers.CoursesListSerializer(instance=courses, many=True,
+                                                       context={'request': request})
+        return Response(serializer.data, status=200)
 

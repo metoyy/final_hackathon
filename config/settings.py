@@ -276,11 +276,16 @@ LOGGING = {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
             'filename': config('LOG_DEBUG_FILE'),
-        }
+        },
+        'console_warn': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
     },
     'loggers': {
         'django': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console', 'file', 'console_warn'],
             'propagate': True,
         },
         'django.request': {

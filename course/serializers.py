@@ -52,5 +52,5 @@ class CourseCreateSerializer(serializers.ModelSerializer):
         images_data = request.FILES.getlist('images')
         for image in images_data:
             CourseImages.objects.create(images=image, course=course)
-        return
+        return course
 

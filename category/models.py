@@ -1,6 +1,6 @@
 from django.db import models
 
-# Create your models here.
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
 
@@ -10,6 +10,7 @@ class Category(models.Model):
     class Meta:
         verbose_name = 'Категория'
         verbose_name_plural = 'Категории'
+
 
 class Language(models.Model):
     language = models.CharField(max_length=150, unique=True)

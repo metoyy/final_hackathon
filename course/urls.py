@@ -7,9 +7,11 @@ from rest_framework.routers import DefaultRouter
 
 router = DefaultRouter()
 router.register('', views.CoursesViewSet)
+
 urlpatterns = [
-    path('', include(router.urls)),
     path('<int:pk>/add_fav/', views.FavoriteAddOrDeletePost.as_view()),
     path('<int:pk>/like/', LikeCreateDeleteView.as_view()),
     path('<int:pk>/reviews/', CourseReviewListView.as_view()),
+    path('favorites/', views.FavoriteCourseListView.as_view()),
+    path('', include(router.urls)),
 ]

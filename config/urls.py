@@ -5,7 +5,8 @@ from drf_yasg import openapi
 from rest_framework import permissions
 from django.conf import settings
 from django.conf.urls.static import static
-import allauth
+from category.views import LanguageListView
+
 
 schema_view = get_schema_view(
    openapi.Info(
@@ -31,7 +32,9 @@ urlpatterns = [
     path('api/categories/', include('category.urls')),
     path('api/courses/', include('course.urls')),
     path('api/reviews/', include('review.urls')),
-
+    path('api/languages/', include('lang.urls')),
+    path('api/mentors/', include('mentors.urls')),
+    path('api/parsing/', include('parsing.urls'))
 ]
 
 urlpatterns += static(

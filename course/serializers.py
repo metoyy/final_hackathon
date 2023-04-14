@@ -2,7 +2,7 @@ from django.db.models import Avg, Count, Max
 from rest_framework import serializers
 from django.contrib.auth.models import AnonymousUser
 
-from category.models import Category
+from category.models import Category, Language
 from course.models import Course, CourseImages
 
 
@@ -15,7 +15,7 @@ class CourseImagesSerializer(serializers.ModelSerializer):
 class CoursesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ('id', 'title', 'category', 'duration_months')
+        fields = ('id', 'title', 'category', 'duration_months', 'language')
 
     def to_representation(self, instance):
         repr = super().to_representation(instance)
@@ -39,13 +39,13 @@ class CoursesListSerializer(serializers.ModelSerializer):
 
 
 class CourseCreateSerializer(serializers.ModelSerializer):
-    course = serializers.PrimaryKeyRelatedField(required=True, queryset=Course.objects.all())
     category = serializers.PrimaryKeyRelatedField(required=True, queryset=Category.objects.all())
-    book_cover = CourseImagesSerializer(many=True, required=False)
+    language = serializers.PrimaryKeyRelatedField(required=True, queryset=Language.objects.all())
 
     class Meta:
         model = Course
-        fields = ('course', 'title', 'mentors', 'category', 'cover', 'price', 'languages', 'duration_months', 'book_cover')
+        fields = ('title', 'mentors', 'category', 'cover',
+                  'price', 'duration_months', 'description', 'language')
 
     def create(self, validated_data):
         request = self.context.get('request')
@@ -53,6 +53,6 @@ class CourseCreateSerializer(serializers.ModelSerializer):
         images_data = request.FILES.getlist('images')
         for image in images_data:
             CourseImages.objects.create(images=image, course=course)
-        return
+        return course
 
 

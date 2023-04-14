@@ -17,6 +17,7 @@ class Course(models.Model):
     duration_months = models.IntegerField(default=3)
     cover = models.ImageField(upload_to='images/covers/', null=True, blank=True)
     favorite = models.ManyToManyField(User, related_name='favorites', blank=True)
+    description = models.TextField(null=False, blank=False, default='lorem ipsum')
 
     def __str__(self):
         return f'{self.title}  - {self.category}'

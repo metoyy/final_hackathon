@@ -43,7 +43,16 @@ class FavoriteAddOrDeletePost(APIView):
         else:
             course.favorite.add(request.user)
         return Response({'msg': 'Successfully added post to favorites'}) \
-if course.favorite.exists() else \
+        if course.favorite.exists() else \
 Response({'msg': 'Successfully deleted post of favorites'})
 
 
+class FeaturedCourses(APIView):
+    permission_classes = permissions.IsAuthenticated,
+
+    # def get(self, request):
+        # courses = Course.objects.all()
+        # # рекоммендации по фаворитам
+        # if courses.favorite.filter(id=request.user.id).exists():
+        #     featured_lg = courses.favorite.language
+        #     serializer = serializers.FeaturedCoursesSerializer(instance=)

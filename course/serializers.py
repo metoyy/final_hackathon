@@ -20,11 +20,8 @@ class CoursesListSerializer(serializers.ModelSerializer):
     def to_representation(self, instance):
         repr = super().to_representation(instance)
         repr['reviews count'] = instance.reviews.count()
-        repr['average rating for this course'] = instance.reviews.aggregate(Avg('rating_score'))['rating_score__avg']
-
         repr['likes_count'] = instance.likes.count()
         repr['reviews_count'] = instance.reviews.count()
-        repr['average_rating for this product'] = instance.reviews.aggregate(Avg('rating_score'))['rating_score__avg']
         request = self.context['request']
         user = request.user
         if user.is_authenticated:
@@ -57,6 +54,5 @@ class CourseCreateSerializer(serializers.ModelSerializer):
         for image in images_data:
             CourseImages.objects.create(images=image, course=course)
         return
-
 
 

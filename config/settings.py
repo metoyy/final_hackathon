@@ -23,16 +23,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['34.90.36.69', 'localhost']
 
 
-CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
+CELERY_BROKER_URL = "redis://127.0.0.1:16379/0"
 CELERY_TIMEZONE = 'Asia/Almaty'
 CELERY_TASK_TRACK_STARTED = True
 CELERY_TASK_TIME_LIMIT = 30 * 60
-CELERY_RESULT_BACKEND = "redis://localhost:6379/0"
+CELERY_RESULT_BACKEND = "redis://localhost:16379/0"
 
 
 # Application definition
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'review',
     'category',
     'mentors',
+    'like',
     'corsheaders',
 
     'allauth',
@@ -112,8 +113,12 @@ SOCIALACCOUNT_PROVIDERS = {
     }
 }
 CORS_ALLOWED_ORIGINS = config('CORS_ALLOWED').split(' ')
+CORS_ALLOW_ALL_ORIGINS = True
 
 ACCOUNT_SIGNUP_REDIRECT_URL = '/all-auth/password/set/'
+LOGIN_REDIRECT_URL = '/api/accounts/login-success/'
+SOCIALACCOUNT_STORE_TOKENS = True
+CSRF_TRUSTED_ORIGINS = ['http://localhost:8000', 'http://localhost']
 
 
 # Database
@@ -155,7 +160,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Almaty'
 
 USE_I18N = True
 
@@ -166,6 +171,12 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'static'
+
+MEDIA_URL = 'media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field

@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'category',
     'mentors',
     'like',
+    'parsing',
     'corsheaders',
 
     'allauth',

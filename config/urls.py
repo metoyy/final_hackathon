@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/reviews/', include('review.urls')),
     path('api/languages/', include('lang.urls')),
     path('api/mentors/', include('mentors.urls')),
+    path('api/parsing/', include('parsing.urls'))
 ]
 
 urlpatterns += static(

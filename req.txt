@@ -12,4 +12,6 @@ tzlocal
 django-allauth
 django-filter
 django-cors-headers
-
+pytelegrambotapi
+bs4
+lxml

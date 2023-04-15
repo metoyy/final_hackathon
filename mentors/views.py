@@ -20,7 +20,7 @@ class MentorsListCreateView(APIView):
         serializer = serializers.MentorListSerializer(instance=mentors, many=True)
         return Response(serializer.data, status=200)
 
-    @swagger_auto_schema(responses={200: serializers.MentorCreateSerializer})
+    @swagger_auto_schema(request_body=serializers.MentorCreateSerializer)
     def post(self, request):
         data = request.data
         serializer = serializers.MentorCreateSerializer(data=data)

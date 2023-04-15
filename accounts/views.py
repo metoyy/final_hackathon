@@ -22,7 +22,7 @@ class RegistrationView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
-    @swagger_auto_schema(responses={200: serializers.RegistrationSerializer})
+    @swagger_auto_schema(request_body=serializers.RegistrationSerializer)
     def post(request):
         try:
             serializer = serializers.RegistrationSerializer(data=request.data)
@@ -79,7 +79,8 @@ class PasswordResetView(APIView):
     permission_classes = (permissions.AllowAny,)
 
     @staticmethod
-    @swagger_auto_schema(responses={200: 'Принимает email в виде: "email: example@example.com", и отправляет письмо, если email найден'})
+    @swagger_auto_schema(operation_description='Принимает email в виде: "email: example@example.com,' 
+                                               'и отправляет письмо, если email найден')
     def post(request):
         try:
             email = request.data['email']
@@ -94,7 +95,7 @@ class PasswordResetView(APIView):
         return Response({'msg': 'Confirmation code sent!'}, status=200)
 
     @staticmethod
-    @swagger_auto_schema(responses={200: serializers.PasswordResetSerializer})
+    @swagger_auto_schema(request_body=serializers.PasswordResetSerializer)
     def put(request):
         try:
             serializer = serializers.PasswordResetSerializer(data=request.data)

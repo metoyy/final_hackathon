@@ -590,3 +590,187 @@ Watching for file changes with StatReloader
 /home/shahnoza/Desktop/final_hackathon/course/models.py changed, reloading.
 Watching for file changes with StatReloader
 /home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/courses/2/purchase/ HTTP/1.1" 401 58
+"POST /api/accounts/login/ HTTP/1.1" 200 483
+"POST /api/courses/2/purchase/ HTTP/1.1" 500 288704
+"POST /api/courses/2/purchase/ HTTP/1.1" 500 288912
+"POST /api/accounts/activate/ HTTP/1.1" 400 31
+"POST /api/accounts/activate/ HTTP/1.1" 400 31
+"POST /api/accounts/activate/ HTTP/1.1" 400 31
+Watching for file changes with StatReloader
+"POST /api/courses/2/purchase/ HTTP/1.1" 500 288704
+"POST /api/accounts/login/ HTTP/1.1" 401 63
+"POST /api/accounts/password_reset/ HTTP/1.1" 200 53
+Watching for file changes with StatReloader
+"GET /admin/accounts/customuser/ HTTP/1.1" 200 16159
+"GET /static/admin/css/base.css HTTP/1.1" 304 0
+"GET /static/admin/css/dark_mode.css HTTP/1.1" 304 0
+"GET /static/admin/css/changelists.css HTTP/1.1" 304 0
+"GET /static/admin/css/responsive.css HTTP/1.1" 304 0
+"GET /static/admin/css/nav_sidebar.css HTTP/1.1" 304 0
+"GET /static/admin/js/jquery.init.js HTTP/1.1" 304 0
+"GET /static/admin/js/vendor/jquery/jquery.js HTTP/1.1" 304 0
+"GET /static/admin/js/core.js HTTP/1.1" 304 0
+"GET /static/admin/js/admin/RelatedObjectLookups.js HTTP/1.1" 304 0
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /static/admin/js/actions.js HTTP/1.1" 304 0
+"GET /static/admin/js/vendor/xregexp/xregexp.js HTTP/1.1" 304 0
+"GET /static/admin/js/urlify.js HTTP/1.1" 304 0
+"GET /static/admin/js/prepopulate.js HTTP/1.1" 304 0
+"GET /static/admin/js/nav_sidebar.js HTTP/1.1" 304 0
+"GET /static/admin/js/theme.js HTTP/1.1" 304 0
+"GET /static/admin/js/filters.js HTTP/1.1" 304 0
+"GET /static/admin/img/icon-addlink.svg HTTP/1.1" 304 0
+"GET /static/admin/img/tooltag-add.svg HTTP/1.1" 304 0
+"GET /admin/accounts/customuser/ HTTP/1.1" 200 16159
+"GET /admin/accounts/customuser/ HTTP/1.1" 200 16159
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /admin/accounts/customuser/ HTTP/1.1" 200 16159
+"GET /admin/accounts/customuser/2/change/ HTTP/1.1" 200 33873
+"GET /static/admin/css/forms.css HTTP/1.1" 304 0
+"GET /static/admin/js/admin/DateTimeShortcuts.js HTTP/1.1" 200 19319
+"GET /static/admin/js/calendar.js HTTP/1.1" 200 8466
+"GET /admin/jsi18n/ HTTP/1.1" 200 3343
+"GET /static/admin/css/widgets.css HTTP/1.1" 304 0
+"GET /static/admin/js/prepopulate_init.js HTTP/1.1" 304 0
+"GET /static/admin/js/change_form.js HTTP/1.1" 304 0
+"GET /static/admin/img/icon-calendar.svg HTTP/1.1" 200 1086
+"GET /static/admin/img/icon-clock.svg HTTP/1.1" 200 677
+"GET /admin/accounts/customuser/2/change/ HTTP/1.1" 200 33873
+"GET /admin/accounts/customuser/2/delete/ HTTP/1.1" 200 17907
+"GET /admin/accounts/customuser/2/delete/ HTTP/1.1" 200 17907
+"POST /admin/accounts/customuser/2/delete/ HTTP/1.1" 302 0
+"GET /admin/accounts/customuser/ HTTP/1.1" 302 0
+"GET /admin/login/?next=/admin/accounts/customuser/ HTTP/1.1" 200 4407
+"GET /static/admin/css/login.css HTTP/1.1" 200 958
+"GET /static/admin/img/icon-yes.svg HTTP/1.1" 304 0
+"GET /admin/login/?next=/admin/accounts/customuser/ HTTP/1.1" 200 4230
+"POST /api/accounts/register/ HTTP/1.1" 201 148
+"POST /api/accounts/activate/ HTTP/1.1" 500 292071
+/home/shahnoza/Desktop/final_hackathon/config/settings.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/accounts/activate/ HTTP/1.1" 400 31
+"POST /api/accounts/login/ HTTP/1.1" 200 483
+"POST /api/courses/2/purchase/ HTTP/1.1" 500 288649
+/home/shahnoza/Desktop/final_hackathon/venv/lib/python3.8/site-packages/redis/commands/__init__.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/courses/2/purchase/ HTTP/1.1" 200 33
+"POST /api/courses/2/purchase/ HTTP/1.1" 200 33
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"POST /api/courses/2/purchase/ HTTP/1.1" 200 33
+"PUT /api/courses/2/purchase/ HTTP/1.1" 400 34
+"PUT /api/courses/2/purchase/ HTTP/1.1" 400 34
+"PUT /api/courses/2/purchase/ HTTP/1.1" 400 34
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"PUT /api/courses/2/purchase/ HTTP/1.1" 400 34
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"PUT /api/courses/2/purchase/ HTTP/1.1" 400 49
+"PUT /api/courses/2/purchase/ HTTP/1.1" 500 107518
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"PUT /api/courses/2/purchase/ HTTP/1.1" 400 34
+"PUT /api/courses/2/purchase/ HTTP/1.1" 400 34
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"PUT /api/courses/2/purchase/ HTTP/1.1" 500 107328
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"PUT /api/courses/2/purchase/ HTTP/1.1" 500 107233
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"PUT /api/courses/2/purchase/ HTTP/1.1" 200 33
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"PUT /api/courses/2/purchase/mycourses/ HTTP/1.1" 404 6241
+"PUT /api/courses/2/mycourses/ HTTP/1.1" 404 6214
+"PUT /api/courses/2/mycourses/ HTTP/1.1" 404 6214
+"PUT /api/courses/mycourses/ HTTP/1.1" 405 40
+"GET /api/courses/mycourses/ HTTP/1.1" 500 146690
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102754
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102746
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 146659
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 146714
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 146668
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102985
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102979
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102979
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 103503
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102961
+Watching for file changes with StatReloader
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 401 183
+"POST /api/accounts/login/ HTTP/1.1" 200 483
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102935
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 146662
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 146700
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 102863
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 103046
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 147461
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 171
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 171
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 103271
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 6
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 500 162017
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 6
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 6
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 161
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 256
+/home/shahnoza/Desktop/final_hackathon/course/serializers.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/mycourses/ HTTP/1.1" 200 241
+/home/shahnoza/Desktop/final_hackathon/course/views.py changed, reloading.
+Watching for file changes with StatReloader
+"GET /api/courses/ HTTP/1.1" 200 665
+"GET /api/courses/1/ HTTP/1.1" 200 198

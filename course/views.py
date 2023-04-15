@@ -1,15 +1,18 @@
+import uuid
+
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 
+from accounts.tasks import confirm_purchase_mail
 from course import serializers
 from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-from course.models import Course
+from course.models import Course, Purchase
 
 
 class StandardResultPagination(PageNumberPagination):
@@ -27,6 +30,8 @@ class CoursesViewSet(ModelViewSet):
     def get_serializer_class(self):
         if self.action == 'create':
             return serializers.CourseCreateSerializer
+        elif self.action == 'retrieve':
+            return serializers.CoursesDetailSerializer
         return serializers.CoursesListSerializer
 
     def get_permissions(self):
@@ -74,3 +79,54 @@ class FavoriteCourseListView(APIView):
         return Response(serializer.data, status=200)
 
 
+
+
+class PurchaseCreateView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+
+    def post(self, request, pk):
+        course = Course.objects.get(id=pk)
+        user = request.user
+        if not course.purchased_courses.filter(owner=user).exists():
+            if user.activation_code is not None and user.activation_code != '':
+                return Response({'msg': '\nThank You for your support!\nPlease confirm your purchase by entering '
+                                        'the code'
+                                        'we sent to your mail!'},
+                                status=200)
+            user.activation_code = uuid.uuid4()
+            user.save()
+            confirm_purchase_mail.delay(user.email, user.activation_code)
+            return Response({'msg': 'Confirmation code sent!'}, status=200)
+        else:
+            return Response({"msg": "You\'ve already bought this course!"}, status=400)
+
+
+    @staticmethod
+    def put(request, pk):
+        try:
+            serializer = serializers.ConfirmPurchaseSerializer(data=request.data)
+            serializer.is_valid(raise_exception=True)
+            serializer.save()
+        except Exception as err:
+            print(err)
+            return Response({'msg': 'Code expired or invalid!'}, status=400)
+        else:
+            course = Course.objects.get(id=pk)
+            data = request.data.copy()
+            data['course'] = course.id
+            serializer = serializers.PurchaseSerializer(data=data, context={'request': request})
+            serializer.is_valid(raise_exception=True)
+            serializer.save(owner=request.user)
+            return Response({'msg': 'Successfully purchased!'}, status=200)
+
+
+class PurchaseListView(APIView):
+    permission_classes = permissions.IsAuthenticated,
+
+    def get(self, request):
+        user = request.user
+        courses = user.purchased_courses.all()
+        result = [i.course for i in courses]
+        serializer = serializers.CoursesDetailSerializer(instance=result, many=True,
+                                                       context={'request': request})
+        return Response(serializer.data, status=200)

@@ -4,13 +4,13 @@ venv
 .env
 images/
 # Django #
-*.log
+*.logs
 *.pot
 *.pyc
 __pycache__
 db.sqlite3
 media/
-
+static
 # Backup files # 
 *.bak 
 

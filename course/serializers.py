@@ -19,7 +19,6 @@ class CoursesListSerializer(serializers.ModelSerializer):
 
     def to_representation(self, instance):
         repr = super().to_representation(instance)
-        repr['reviews count'] = instance.reviews.count()
         repr['likes_count'] = instance.likes.count()
         repr['reviews_count'] = instance.reviews.count()
         request = self.context['request']

@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['34.90.36.69', 'localhost']
+ALLOWED_HOSTS = ['34.90.36.69', 'localhost', '127.0.0.1']
 
 
 CELERY_BROKER_URL = "redis://127.0.0.1:16379/0"

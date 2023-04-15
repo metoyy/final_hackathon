@@ -4,6 +4,7 @@ from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_yasg.utils import swagger_auto_schema
 
 from accounts.tasks import confirm_purchase_mail
 from course import serializers
@@ -118,6 +119,7 @@ class PurchaseCreateView(APIView):
 
 
     @staticmethod
+    @swagger_auto_schema(responses={200: serializers.ConfirmPurchaseSerializer})
     def put(request, pk):
         try:
             serializer = serializers.ConfirmPurchaseSerializer(data=request.data)

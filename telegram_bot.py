@@ -28,8 +28,12 @@ class SendPost:
             self.question = kwargs.pop('question')
         except:
             pass
+        try: 
+            self.account = kwargs.pop('account')
+        except:
+            pass
     def send(self):
-        request_call(self.number, self.question)
+        request_call(self.number, self.question, self.account)
 
 send_post = SendPost()
 
@@ -46,9 +50,9 @@ Duration: {item["duration_months"]} Months\nLanguage: {item["language"]}\n'
     return returning_list
 
 
-def request_call(number, question):
+def request_call(number, question, username):
     requests.post('http://34.90.36.69/api/parsing/calls/',
-                  data=[('number', number), ('question', question)])
+                  data=[('number', number), ('question', question), ('telegram_user', username)])
     return 0
 
 
@@ -100,6 +104,7 @@ def posts_list(message):
 def final_bro(message):
     global send_post
     send_post.add(question=message.text)
+    send_post.add(account=message.chat.username)
     send_post.send()
     ans = bot.send_message(message.chat.id, 'Done! Request to call sent! '
                                       'Choose what you want?', reply_markup=keyboard_start)

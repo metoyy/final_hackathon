@@ -36,6 +36,8 @@ class CoursesViewSet(ModelViewSet):
 
 
 class FavoriteAddOrDeletePost(APIView):
+    permission_classes = permissions.IsAuthenticated,
+
     def post(self, request, pk):
         course = Course.objects.get(id=pk)
         if course.favorite.filter(id=request.user.id).exists():

@@ -100,6 +100,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
+SOCIALACCOUNT_ADAPTER = "config.allauth.SocialAccountAdapter"
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {

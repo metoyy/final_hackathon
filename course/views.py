@@ -1,5 +1,4 @@
 import uuid
-
 from rest_framework import permissions
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.pagination import PageNumberPagination
@@ -41,6 +40,8 @@ class CoursesViewSet(ModelViewSet):
 
 
 class FavoriteAddOrDeletePost(APIView):
+    permission_classes = permissions.IsAuthenticated,
+
     def post(self, request, pk):
         course = Course.objects.get(id=pk)
         if course.favorite.filter(id=request.user.id).exists():
@@ -49,7 +50,22 @@ class FavoriteAddOrDeletePost(APIView):
             course.favorite.add(request.user)
         return Response({'msg': 'Successfully added post to favorites'}) \
         if course.favorite.exists() else \
-Response({'msg': 'Successfully deleted post of favorites'})
+        Response({'msg': 'Successfully deleted post of favorites'})
+
+
+class FeaturedCoursesView(APIView):
+    permission_classes = permissions.IsAuthenticated,
+
+    def get(self, request):
+        from collections import Counter
+        user = request.user
+        courses = user.favorites.all()
+        langs = [x.language for x in courses]
+        featured_lg = Counter(langs).most_common(1)[0][0]
+        featured_courses = Course.objects.filter(language=featured_lg)
+        serializer = serializers.CoursesListSerializer(instance=featured_courses, many=True,
+                                                       context={'request': request})
+        return Response(serializer.data, status=200)
 
 
 

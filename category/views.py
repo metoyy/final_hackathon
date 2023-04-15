@@ -14,6 +14,7 @@ from . import serializers
 class CategoryListView(generics.ListCreateAPIView):
     queryset = Category.objects.all()
     serializer_class = serializers.CategorySerializer
+    permission_classes = permissions.AllowAny,
 
     def get_permission(self):
         if self.request.method == 'GET':

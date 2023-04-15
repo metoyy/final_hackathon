@@ -1,9 +1,9 @@
 from rest_framework import serializers
-
-
+from django.contrib.auth import get_user_model
 
 from like.models import Like
 
+User = get_user_model()
 
 class LikeSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.id')
@@ -29,3 +29,5 @@ class LikeListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Like
         fields = ('owner', 'owner_name',)
+
+

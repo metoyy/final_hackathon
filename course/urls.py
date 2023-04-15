@@ -14,5 +14,8 @@ urlpatterns = [
     path('<int:pk>/reviews/', CourseReviewListView.as_view()),
     path('favorites/', views.FavoriteCourseListView.as_view()),
     path('featured/', views.FeaturedCoursesView.as_view()),
+    path('<int:pk>/purchase/', views.PurchaseCreateView.as_view()), #post - to purchase, put - to confirm purchase
+    path('mycourses/', views.PurchaseListView.as_view()),
     path('', include(router.urls)),
+
 ]

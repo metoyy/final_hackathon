@@ -1,10 +1,11 @@
-from django.db.models import Avg
+from django.contrib.auth import get_user_model
 from rest_framework import serializers
-from django.contrib.auth.models import AnonymousUser
-
+from django.utils.translation import gettext_lazy as _
 from category.models import Category, Language
-from course.models import Course, CourseImages
+from course.models import Course, CourseImages, Purchase
 
+
+User = get_user_model()
 
 class CourseImagesSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,7 +22,6 @@ class CoursesListSerializer(serializers.ModelSerializer):
         repr = super().to_representation(instance)
         repr['likes_count'] = instance.likes.count()
         repr['reviews_count'] = instance.reviews.count()
-        repr['average_rating for this product'] = instance.reviews.aggregate(Avg('rating_score'))['rating_score__avg']
         request = self.context['request']
         user = request.user
         if user.is_authenticated:
@@ -55,3 +55,45 @@ class CourseCreateSerializer(serializers.ModelSerializer):
             CourseImages.objects.create(images=image, course=course)
         return course
 
+
+
+class PurchaseSerializer(serializers.ModelSerializer):
+    owner = serializers.ReadOnlyField(source='owner.id')
+    owner_username = serializers.ReadOnlyField(source='owner.username')
+
+    class Meta:
+        model = Purchase
+        fields = "__all__"
+
+
+class ConfirmPurchaseSerializer(serializers.Serializer):
+    confirmation_code = serializers.CharField(required=True, max_length=255)
+    default_error_messages = {
+        'bad_code': _('Code is expired or invalid!')
+    }
+
+    def validate(self, attrs):
+        self.confirmation_code = attrs['confirmation_code']
+        return super().validate(attrs)
+
+
+    def save(self, **kwargs):
+        try:
+            user = User.objects.get(activation_code=self.confirmation_code)
+            user.activation_code = ''
+            user.save()
+        except User.DoesNotExist:
+            self.fail('bad_code')
+
+
+
+class CoursesDetailSerializer(CoursesListSerializer):
+    class Meta:
+        model = Course
+        exclude = "favorite",
+
+    # def to_representation(self, instance):
+    #     repr = super().to_representation(instance)
+    #     repr['description'] = instance.description
+    #     repr['price'] = instance.price
+    #     return repr

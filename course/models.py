@@ -45,3 +45,11 @@ class CourseImages(models.Model):
 
     class Meta:
         verbose_name_plural = 'Course Images'
+
+
+class Purchase(models.Model):
+    owner = models.ForeignKey(User, related_name='purchased_courses', on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, related_name='purchased_courses', on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ['owner', 'course']

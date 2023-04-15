@@ -5,6 +5,8 @@ from rest_framework.pagination import PageNumberPagination
 from rest_framework.filters import SearchFilter
 from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
+from django.db.models import Q
+from django.contrib.auth import get_user_model
 
 from accounts.tasks import confirm_purchase_mail
 from course import serializers
@@ -13,6 +15,8 @@ from rest_framework.response import Response
 
 
 from course.models import Course, Purchase
+
+User = get_user_model()
 
 
 class StandardResultPagination(PageNumberPagination):
@@ -143,8 +147,7 @@ class PurchaseListView(APIView):
 
     def get(self, request):
         user = request.user
-        courses = user.purchased_courses.all()
-        result = [i.course for i in courses]
-        serializer = serializers.CoursesDetailSerializer(instance=result, many=True,
+        courses = Course.objects.filter(Q(purchased_courses__owner=user))
+        serializer = serializers.CoursesDetailSerializer(instance=courses, many=True,
                                                        context={'request': request})
         return Response(serializer.data, status=200)

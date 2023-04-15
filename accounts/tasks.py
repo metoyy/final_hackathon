@@ -51,3 +51,17 @@ def send_welcome_message(user):
         recipient_list=[user],
         fail_silently=False,
     )
+
+
+@shared_task
+def confirm_purchase_mail(user, code):
+    send_mail(
+        subject='Подтвердите покупку на сайте| ',
+        message='Пожалуйста, подтвердите, что это вы совершаете покупку!\nДля этого нужно ввести данный код:'
+                f'\n\n{code}\n'
+                f'\nНикому не передавайте данный код!'
+                '\n\n\n',
+        from_email=config('EMAIL_USER'),
+        recipient_list=[user],
+        fail_silently=False,
+    )

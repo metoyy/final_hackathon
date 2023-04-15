@@ -26,7 +26,7 @@ SECRET_KEY = config('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['34.90.36.69', 'localhost']
+ALLOWED_HOSTS = ['34.90.36.69', 'localhost', '127.0.0.1']
 
 
 CELERY_BROKER_URL = "redis://127.0.0.1:16379/0"
@@ -100,6 +100,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 
+SOCIALACCOUNT_ADAPTER = "config.allauth.SocialAccountAdapter"
 SOCIALACCOUNT_PROVIDERS = {
     'google': {
         'APP': {
@@ -219,7 +220,7 @@ SIMPLE_JWT = {
     "JWK_URL": None,
     "LEEWAY": 0,
 
-    "AUTH_HEADER_TYPES": ("Bearer","Token", "JWT"),
+    "AUTH_HEADER_TYPES": ("Bearer", "Token", "JWT"),
     "AUTH_HEADER_NAME": "HTTP_AUTHORIZATION",
     "USER_ID_FIELD": "id",
     "USER_ID_CLAIM": "user_id",

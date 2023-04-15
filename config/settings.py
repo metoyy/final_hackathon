@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     'drf_yasg',
     'accounts',
     'course',
-    'favorite',
     'review',
     'category',
     'mentors',

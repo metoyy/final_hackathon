@@ -34,7 +34,7 @@ class SendPost:
 send_post = SendPost()
 
 def parse_courses():
-    soup = bs(requests.get('http://localhost:8000/api/parsing/courses/').text, 'lxml')
+    soup = bs(requests.get('http://34.90.36.69/api/parsing/courses/').text, 'lxml')
     text = soup.find('p').text
     ordered_dict = json.loads(text)
     returning_list = []
@@ -47,7 +47,7 @@ Duration: {item["duration_months"]} Months\nLanguage: {item["language"]}\n'
 
 
 def request_call(number, question):
-    requests.post('http://localhost:8000/api/parsing/calls/',
+    requests.post('http://34.90.36.69/api/parsing/calls/',
                   data=[('number', number), ('question', question)])
     return 0
 

@@ -13,6 +13,7 @@ media/
 static/
 # Backup files # 
 *.bak 
+logs/
 
 # If you are using PyCharm # 
 # User-specific stuff

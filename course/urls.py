@@ -13,5 +13,6 @@ urlpatterns = [
     path('<int:pk>/like/', LikeCreateDeleteView.as_view()),
     path('<int:pk>/reviews/', CourseReviewListView.as_view()),
     path('favorites/', views.FavoriteCourseListView.as_view()),
+    path('featured/', views.FeaturedCoursesView.as_view()),
     path('', include(router.urls)),
 ]

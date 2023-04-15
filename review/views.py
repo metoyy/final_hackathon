@@ -20,7 +20,7 @@ class ReviewCreateView(APIView):
             return Response({'msg': 'Course not found!'}, status=404)
         review = course.reviews.filter(user=user)
         if review.exists():
-            serializer = serializers.ReviewCreateSerializer(instance=review[0]).data
+            serializer = serializers.ReviewCreateSerializer(instance=review, many=True).data
             return Response({'msg': 'You already left the review!', 'review': serializer}, status=400)
         serializer = serializers.ReviewCreateSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -35,7 +35,7 @@ class ReviewDetailView(generics.RetrieveDestroyAPIView):
     def get_permissions(self):
         if self.request.method == "DELETE":
             return IsUserOrAdmin(),
-        return permissions.IsAuthenticated(),
+        return permissions.AllowAny(),
 
 
 class CourseReviewListView(APIView):

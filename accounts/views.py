@@ -54,6 +54,7 @@ class ActivationView(GenericAPIView):
 class UserListApiView(ListAPIView):
     queryset = User.objects.all()
     serializer_class = serializers.UserSerializer
+    permission_classes = permissions.IsAuthenticated,
 
 
 class LoginView(TokenObtainPairView):

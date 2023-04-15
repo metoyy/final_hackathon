@@ -119,7 +119,7 @@ class PurchaseCreateView(APIView):
 
 
     @staticmethod
-    @swagger_auto_schema(responses={200: serializers.ConfirmPurchaseSerializer})
+    @swagger_auto_schema(request_body=serializers.ConfirmPurchaseSerializer)
     def put(request, pk):
         try:
             serializer = serializers.ConfirmPurchaseSerializer(data=request.data)

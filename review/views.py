@@ -11,7 +11,7 @@ from .permissions import IsUserOrAdmin
 
 class ReviewCreateView(APIView):
 
-    @swagger_auto_schema(responses={200: serializers.ReviewCreateSerializer})
+    @swagger_auto_schema(request_body=serializers.ReviewCreateSerializer)
     def post(self, request):
         user = request.user
         try:

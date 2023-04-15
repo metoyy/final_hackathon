@@ -14,7 +14,7 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 
 
-from course.models import Course, Purchase
+from course.models import Course
 
 User = get_user_model()
 

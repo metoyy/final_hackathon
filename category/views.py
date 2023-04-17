@@ -50,7 +50,6 @@ class CategoryDetailView(generics.RetrieveUpdateDestroyAPIView):
 class LanguageListView(APIView):
     permission_classes = permissions.AllowAny,
 
-    @swagger_auto_schema
     def get(self, request):
         queryset = Language.objects.all()
         serializer = serializers.LanguageListSerializer(instance=queryset, many=True)

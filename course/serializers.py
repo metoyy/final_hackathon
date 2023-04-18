@@ -16,7 +16,7 @@ class CourseImagesSerializer(serializers.ModelSerializer):
 class CoursesListSerializer(serializers.ModelSerializer):
     class Meta:
         model = Course
-        fields = ('id', 'title', 'category', 'duration_months', 'language')
+        fields = ('id', 'title', 'category', 'duration_months', 'language', 'price', 'cover', 'mentors', 'description')
 
     def to_representation(self, instance):
         repr = super().to_representation(instance)

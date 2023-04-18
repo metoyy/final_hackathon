@@ -4,20 +4,23 @@ from review.models import Review
 
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
-    username = serializers.ReadOnlyField(source='user.username')
+    first_name = serializers.ReadOnlyField(source='user.first_name')
+    last_name = seralizers.ReadOnlyField(source='user.last_name')
     course_id = serializers.IntegerField(required=True)
 
     class Meta:
         model = Review
-        fields = ('id', 'username', 'rating_score', 'body', 'course_id', 'created_at')
+        fields = ('id', 'first_name', 'last_name', 'rating_score', 'body', 'course_id', 'created_at')
 
 
 class ReviewDetailSerializer(serializers.ModelSerializer):
+    first_name = serializers.ReadOnlyField(source='user.first_name')
+    last_name = seralizers.ReadOnlyField(source='user.last_name')
     user_email = serializers.ReadOnlyField(source='user.email')
 
     class Meta:
         model = Review
-        fields = ('id', 'user', 'rating_score', 'body', 'created_at', 'user_email')
+        fields = ('id', 'first_name', 'last_name', 'user', 'rating_score', 'body', 'created_at', 'user_email')
 
 
 class MyReviewsSerializer(serializers.ModelSerializer):
@@ -27,5 +30,5 @@ class MyReviewsSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Review
-        fields = ('id', 'username', 'rating_score', 'body',
+        fields = ('id', 'first_name', 'last_name', 'rating_score', 'body',
                   'created_at', 'course_id', 'course_name')

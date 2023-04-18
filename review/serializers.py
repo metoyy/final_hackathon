@@ -24,6 +24,8 @@ class ReviewDetailSerializer(serializers.ModelSerializer):
 
 
 class MyReviewsSerializer(serializers.ModelSerializer):
+    first_name = serializers.ReadOnlyField(source='user.first_name')
+    last_name = seralizers.ReadOnlyField(source='user.last_name')
     course_id = serializers.ReadOnlyField(source='course.id')
     course_name = serializers.ReadOnlyField(source='course.title')
     username = serializers.ReadOnlyField(source='user.username')

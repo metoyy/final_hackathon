@@ -29,7 +29,7 @@ class CoursesViewSet(ModelViewSet):
     pagination_class = StandardResultPagination
     filter_backends = (SearchFilter, DjangoFilterBackend)
     search_fields = ('title',)
-    filterset_fields = ('price', 'category', 'language',)
+    filterset_fields = ('price', 'category', 'language', 'mentors')
 
     def get_serializer_class(self):
         if self.action == 'create':

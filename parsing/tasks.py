@@ -16,3 +16,16 @@ def send_call_to_admins(users: list, number, text, tg_user):
         fail_silently=False,
     )
 
+
+@shared_task
+def send_conf_email_telegram(user, code):
+    send_mail(
+        subject='Письмо привязки телеграм аккаунта',
+        message='Чтобы привязать аккаунт нужно ввести данный код:'
+                f'\n\n{code}\n'
+                f'\nНикому не передавайте данный код!'
+                '\n\n\n',
+        from_email=config('EMAIL_USER'),
+        recipient_list=[user],
+        fail_silently=False,
+    )

@@ -5,19 +5,36 @@ import requests
 import json
 from decouple import config
 
-
 token = config('TELEGRAM_TOKEN')
 bot = telebot.TeleBot(token)
 
 keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard_usermenu = types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard_usermenu_anon = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 button_courseslist = types.KeyboardButton('Courses List')
 button_consult = types.KeyboardButton('Заказать звонок')
 button_usermenu = types.KeyboardButton('Меню пользователя')
+button_linkacc = types.KeyboardButton('Link account')
+button_details = types.KeyboardButton('Account details')
+button_update_det = types.KeyboardButton('Update details')
+button_unlink = types.KeyboardButton('Unlink account')
+button_mainmenu = types.KeyboardButton('Main menu')
 
 keyboard_start.add(button_courseslist)
 keyboard_start.add(button_consult)
 keyboard_start.add(button_usermenu)
+
+keyboard_usermenu.add(button_details)
+keyboard_usermenu.add(button_update_det)
+keyboard_usermenu.add(button_unlink)
+keyboard_usermenu.add(button_mainmenu)
+
+keyboard_usermenu_anon.add(button_linkacc)
+
+class Info:
+    def __init__(self, eur):
+        self.anon = eur
 
 
 class SendPost:
@@ -36,6 +53,21 @@ class SendPost:
             pass
     def send(self):
         request_call(self.number, self.question, self.account)
+
+
+class SendEmailInfo:
+    def add(self, **kwargs):
+        try:
+            self.email = kwargs.pop('email')
+        except:
+            pass
+        try:
+            self.username = kwargs.pop('username')
+        except:
+            pass
+
+
+
 
 send_post = SendPost()
 
@@ -83,6 +115,16 @@ def handle_answer(message):
         bot.register_next_step_handler(answer, handle_answer)
 
 
+def handle_usermenu(message):
+    if message.text.lower() == 'link account':
+        clarify_info1(message)
+    elif message.text.lower() == 'main menu':
+        start_message(message)
+    else:
+        answer = bot.send_message(message.chat.id, 'what?')
+        bot.register_next_step_handler(answer, handle_usermenu)
+
+
 def gain_info(message):
     number = bot.send_message(message.chat.id, 'Enter your number...')
     bot.register_next_step_handler(number, posts_list)
@@ -116,10 +158,28 @@ def final_bro(message):
 
 
 def user_menu(message):
-    response = requests.get('http://localhost:8000/api/parsing/accounts/')
-    print(json.loads(response.text))
-    ans = bot.send_message(message.chat.id, 'sdsd')
+    ans = bot.send_message(message.chat.id, "What do you want?", reply_markup=keyboard_usermenu_anon)
     bot.register_next_step_handler(ans, user_menu,)
+
+
+def clarify_info1(message):
+    ans = bot.send_message(message.chat.id, 'Write your email...')
+    bot.register_next_step_handler(ans, clarify_info2)
+
+
+def clarify_info2(message):
+    email = message.text
+    User = SendEmailInfo()
+    User.add(email=email, username=message.chat.username)
+    response = requests.patch('http://34.90.36.69/api/parsing/addaccount/', data=[('email', User.email),
+                                                                                  ('username', User.username)])
+    print(response)
+
+    # ans = bot.send_message(message.chat.id, )
+
+
+
+
 
 
 bot.polling()

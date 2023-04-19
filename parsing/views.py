@@ -8,6 +8,7 @@ from django.contrib.auth import get_user_model
 from course import serializers
 from course.models import Course
 from .tasks import send_call_to_admins
+from accounts.serializers import *
 
 User = get_user_model()
 
@@ -37,3 +38,12 @@ class LeaveNumberView(APIView):
                             text=data['question'], tg_user=data['telegram_user'])
         
         return Response({'msg': 'success'}, status=200)
+
+
+class AllAccountsView(APIView):
+    permission_classes = permissions.AllowAny,
+
+    def get(self, request):
+        qs = User.objects.all()
+        serializer = UserSerializer(instance=qs, many=True)
+        return Response(serializer.data, status=200)

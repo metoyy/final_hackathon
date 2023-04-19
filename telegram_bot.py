@@ -20,10 +20,12 @@ button_details = types.KeyboardButton('Account details')
 button_update_det = types.KeyboardButton('Update details')
 button_unlink = types.KeyboardButton('Unlink account')
 button_mainmenu = types.KeyboardButton('Main menu')
+button_stop = types.KeyboardButton('/stop')
 
 keyboard_start.add(button_courseslist)
 keyboard_start.add(button_consult)
 keyboard_start.add(button_usermenu)
+keyboard_start.add(button_stop)
 
 keyboard_usermenu.add(button_details)
 keyboard_usermenu.add(button_update_det)
@@ -161,6 +163,9 @@ def handle_answer(message):
         gain_info(message)
     elif message.text.lower() == 'user menu':
         user_menu(message)
+    elif message.text.lower() == '/stop':
+        bot.send_message(message.chat.id, 'Goodbye!', reply_markup=None)
+        return 0
     else:
         answer = bot.send_message(message.chat.id, 'what?', reply_markup=keyboard_start)
         bot.register_next_step_handler(answer, handle_answer)

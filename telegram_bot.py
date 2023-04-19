@@ -12,6 +12,7 @@ keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_usermenu = types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_usermenu_anon = types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_init = types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard_empty = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 button_courseslist = types.KeyboardButton('Courses List')
 button_consult = types.KeyboardButton('Leave a call')
@@ -243,7 +244,7 @@ def update_lastname(message):
 
 
 def gain_info(message):
-    number = bot.send_message(message.chat.id, 'Enter your number...')
+    number = bot.send_message(message.chat.id, 'Enter your number...', reply_markup=keyboard_empty)
     bot.register_next_step_handler(number, posts_list)
 
 
@@ -260,7 +261,7 @@ def users_list(message):
 def posts_list(message):
     global send_post
     send_post.add(number=message.text)
-    question = bot.send_message(message.chat.id, 'Enter your question... ')
+    question = bot.send_message(message.chat.id, 'Enter your question... ', reply_markup=keyboard_empty)
     bot.register_next_step_handler(question, final_bro)
 
 

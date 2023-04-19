@@ -56,3 +56,10 @@ class MyReviewsView(APIView):
         reviews = Review.objects.filter(user=user)
         serializer = serializers.MyReviewsSerializer(instance=reviews, many=True).data
         return Response(serializer, status=200)
+
+
+class ReviewListView(APIView):
+    def get(self, request):
+        qs = Review.objects.all()
+        serializer = serializers.ReviewSerializer(instance=qs, many=True)
+        return Response(serializer.data, status=200)

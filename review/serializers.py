@@ -34,3 +34,9 @@ class MyReviewsSerializer(serializers.ModelSerializer):
         model = Review
         fields = ('id', 'first_name', 'last_name', 'rating_score', 'body',
                   'created_at', 'course_id', 'course_name')
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = '__all__'

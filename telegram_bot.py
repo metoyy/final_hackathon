@@ -38,10 +38,12 @@ keyboard_update_choose = types.ReplyKeyboardMarkup(resize_keyboard=True)
 button_firstname = types.KeyboardButton('First name')
 button_lastname = types.KeyboardButton('Last name')
 button_username = types.KeyboardButton('Username')
+button_prev = types.KeyboardButton('Previous menu')
 
 keyboard_update_choose.add(button_firstname)
 keyboard_update_choose.add(button_lastname)
 keyboard_update_choose.add(button_username)
+keyboard_update_choose.add(button_prev)
 
 
 class Info:
@@ -142,6 +144,11 @@ def start_message(message):
     bot.register_next_step_handler(answer, handle_answer)
 
 
+def start_message2(message):
+    answer = bot.send_message(message.chat.id, 'Choose what you want?', reply_markup=keyboard_start)
+    bot.register_next_step_handler(answer, handle_answer)
+
+
 @bot.message_handler(commands=['stop'])
 def stop_message(message):
     bot.send_message(message.chat.id, 'Goodbye!')
@@ -163,7 +170,7 @@ def handle_usermenu(message):
     if message.text.lower() == 'link account':
         clarify_info1(message)
     elif message.text.lower() == 'main menu':
-        start_message(message)
+        start_message2(message)
     else:
         answer = bot.send_message(message.chat.id, 'what?', reply_markup=is_linked(message.chat.username))
         bot.register_next_step_handler(answer, handle_usermenu)
@@ -177,7 +184,7 @@ def handle_usermenu_auth(message):
     elif message.text.lower() == 'unlink account':
         account_unlink(message)
     elif message.text.lower() == 'main menu':
-        start_message(message)
+        start_message2(message)
     else:
         answer = bot.send_message(message.chat.id, 'what?', reply_markup=is_linked(message.chat.username))
         bot.register_next_step_handler(answer, handle_usermenu_auth)
@@ -194,8 +201,9 @@ def choose_update(message):
     elif tex == 'username':
         msg = bot.send_message(message.chat.id, 'Send new username...')
         bot.register_next_step_handler(msg, update_username)
-    elif tex == 'main menu':
-        handle_usermenu_auth(message)
+    elif tex == 'previous menu':
+        msg = bot.send_message(message.chat.id, 'Ok', reply_markup=is_linked(message.chat.username))
+        bot.register_next_step_handler(msg, handle_usermenu_auth)
     else:
         ans = bot.send_message(message.chat.id, 'What?')
         bot.register_next_step_handler(ans, choose_update)
@@ -204,21 +212,24 @@ def choose_update(message):
 def update_username(message):
     response = requests.patch(f'http://34.90.36.69/api/parsing/accountdetails/{message.chat.username}/',
                               data=[('username', message.text)])
-    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    msg = json.loads(response.text)
+    ans = bot.send_message(message.chat.id, msg['msg'], reply_markup=is_linked(message.chat.username))
     bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
 def update_firstname(message):
     response = requests.patch(f'http://34.90.36.69/api/parsing/accountdetails/{message.chat.username}/',
                               data=[('first_name', message.text)])
-    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    msg = json.loads(response.text)
+    ans = bot.send_message(message.chat.id, msg['msg'], reply_markup=is_linked(message.chat.username))
     bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
 def update_lastname(message):
     response = requests.patch(f'http://34.90.36.69/api/parsing/accountdetails/{message.chat.username}/',
                               data=[('last_name', message.text)])
-    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    msg = json.loads(response.text)
+    ans = bot.send_message(message.chat.id, msg['msg'], reply_markup=is_linked(message.chat.username))
     bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
@@ -316,9 +327,8 @@ def account_update(message):
 def account_unlink(message):
     response = requests.delete('http://34.90.36.69/api/parsing/addaccount/',
                                data=[('username', message.chat.username)])
-    msg = response.text
-    print(msg)
-    ans = bot.send_message(message.chat.id, 'msg', reply_markup=is_linked(message.chat.username))
+    msg = json.loads(response.text)
+    ans = bot.send_message(message.chat.id, msg['msg'], reply_markup=is_linked(message.chat.username))
     bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 

@@ -158,7 +158,7 @@ def start_message2(message):
 
 @bot.message_handler(commands=['stop'])
 def stop_message(message):
-    bot.send_message(message.chat.id, 'Goodbye!')
+    bot.send_message(message.chat.id, 'Goodbye!', reply_markup=keyboard_init)
 
 
 def handle_answer(message):

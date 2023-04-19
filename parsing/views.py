@@ -91,7 +91,7 @@ class AddAccountView(APIView):
         user.telegram_username = None
         user.tg_code = None
         user.save()
-        return Response({'msg': 'Success'}, status=204)
+        return Response({'msg': 'Success'}, status=202)
 
 
 class AccountDetails(APIView):

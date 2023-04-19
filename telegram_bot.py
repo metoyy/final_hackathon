@@ -98,19 +98,19 @@ class SendEmailInfo:
 
 
 def what_menu(username):
-    response = requests.post('http://34.90.36.69/api/parsing/addaccount/', data=[('username', username)])
+    response = requests.get('http://34.90.36.69/api/parsing/checkview/', data=[('username', username)])
     if response.status_code == 400:
-        return handle_usermenu_auth
-    else:
         return handle_usermenu
+    else:
+        return handle_usermenu_auth
 
 
 def is_linked(username):
-    response = requests.post('http://34.90.36.69/api/parsing/addaccount/', data=[('username', username)])
+    response = requests.get('http://34.90.36.69/api/parsing/checkview/', data=[('username', username)])
     if response.status_code == 400:
-        return keyboard_usermenu
-    else:
         return keyboard_usermenu_anon
+    else:
+        return keyboard_usermenu
 
 
 send_post = SendPost()
@@ -176,6 +176,8 @@ def handle_usermenu_auth(message):
         account_update(message)
     elif message.text.lower() == 'unlink account':
         account_unlink(message)
+    elif message.text.lower() == 'main menu':
+        start_message(message)
     else:
         answer = bot.send_message(message.chat.id, 'what?', reply_markup=is_linked(message.chat.username))
         bot.register_next_step_handler(answer, handle_usermenu_auth)
@@ -253,19 +255,23 @@ def final_bro(message):
 
 
 def user_menu(message):
-    ans = bot.send_message(message.chat.id, "What do you want?", reply_markup=keyboard_usermenu_anon)
+    ans = bot.send_message(message.chat.id, "What do you want?", reply_markup=is_linked(message.chat.username))
     bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
 def clarify_info1(message):
-    response = requests.post('http://34.90.36.69/api/parsing/addaccount/', data=[('username', message.chat.username)])
-    if response.status_code == 404:
+    response = requests.get('http://34.90.36.69/api/parsing/checkview/', data=[('username', message.chat.username)])
+    print(response.status_code, '\n\n', response.text)
+    if response.status_code == 200:
         ans = bot.send_message(message.chat.id, 'You already linked your account! Unlink first!',
                                reply_markup=keyboard_usermenu)
         bot.register_next_step_handler(ans, handle_usermenu)
-    else:
+    elif response.status_code == 400:
         ans = bot.send_message(message.chat.id, 'Write your email...')
         bot.register_next_step_handler(ans, clarify_info2)
+    else:
+        ans = bot.send_message(message.chat.id, 'Error!', reply_markup=is_linked(message.chat.username))
+        bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
 def clarify_info2(message):
@@ -275,13 +281,12 @@ def clarify_info2(message):
     response = requests.patch('http://34.90.36.69/api/parsing/addaccount/', data=[('email', User.email),
                                                                                   ('username', User.username)])
     msg = ('Message to your email successfully sent. Check your inbox and write the code here...',
-    link_accounts, None) if not \
-        response.status_code == 404 else f'Error! {json.loads(response.text)["msg"]}\n\nWent back to the main users menu', \
-        what_menu(message.chat.id),
-    is_linked(message.chat.username)
+           link_accounts, None) if not response.status_code == 404\
+        else (f'Error! {json.loads(response.text)["msg"]}\n\nWent back to the main users menu',
+              what_menu(message.chat.username),
+              is_linked(message.chat.username))
     ans = bot.send_message(message.chat.id, msg[0], reply_markup=msg[2])
     bot.register_next_step_handler(ans, msg[1])
-
 
 
 def link_accounts(message):
@@ -311,7 +316,9 @@ def account_update(message):
 def account_unlink(message):
     response = requests.delete('http://34.90.36.69/api/parsing/addaccount/',
                                data=[('username', message.chat.username)])
-    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    msg = response.text
+    print(msg)
+    ans = bot.send_message(message.chat.id, 'msg', reply_markup=is_linked(message.chat.username))
     bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 

@@ -71,7 +71,7 @@ class AddAccountView(APIView):
     def post(self, request):
         user1 = User.objects.filter(telegram_username=request.data['username'])
         if user1.exists():
-            return Response({'msg': f'You already linked with user: {user1.first().email}'})
+            return Response({'msg': f'You already linked with user: {user1.first().email}'}, status=400)
         try:
             requested_user = User.objects.get(tg_code=request.data['code'])
         except (User.DoesNotExist,

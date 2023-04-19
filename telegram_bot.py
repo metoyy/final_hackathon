@@ -31,6 +31,7 @@ keyboard_usermenu.add(button_unlink)
 keyboard_usermenu.add(button_mainmenu)
 
 keyboard_usermenu_anon.add(button_linkacc)
+keyboard_usermenu_anon.add(button_mainmenu)
 
 class Info:
     def __init__(self, eur):
@@ -159,10 +160,11 @@ def final_bro(message):
 
 def user_menu(message):
     ans = bot.send_message(message.chat.id, "What do you want?", reply_markup=keyboard_usermenu_anon)
-    bot.register_next_step_handler(ans, user_menu,)
+    bot.register_next_step_handler(ans, handle_usermenu)
 
 
 def clarify_info1(message):
+    response = requests.post()
     ans = bot.send_message(message.chat.id, 'Write your email...')
     bot.register_next_step_handler(ans, clarify_info2)
 
@@ -173,9 +175,19 @@ def clarify_info2(message):
     User.add(email=email, username=message.chat.username)
     response = requests.patch('http://34.90.36.69/api/parsing/addaccount/', data=[('email', User.email),
                                                                                   ('username', User.username)])
-    print(response)
+    ans = bot.send_message(message.chat.id, 'Message to your email successfully sent. Check your inbox'
+                                      'and write the code here...')
+    bot.register_next_step_handler(ans, link_accounts)
 
-    # ans = bot.send_message(message.chat.id, )
+
+def link_accounts(message):
+    code = message.text
+    username = message.chat.username
+    response = requests.post('http://34.90.36.69/api/parsing/addaccount/', data=[('code', code),
+                                                                                 ('username', username)])
+    respon = json.loads(response.text)
+    ans = bot.send_message(message.chat.id, respon['msg'], reply_markup=keyboard_usermenu)
+    bot.register_next_step_handler(ans, handle_usermenu)
 
 
 

@@ -13,9 +13,11 @@ keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 button_courseslist = types.KeyboardButton('Courses List')
 button_consult = types.KeyboardButton('Заказать звонок')
+button_usermenu = types.KeyboardButton('Меню пользователя')
 
 keyboard_start.add(button_courseslist)
 keyboard_start.add(button_consult)
+keyboard_start.add(button_usermenu)
 
 
 class SendPost:
@@ -74,6 +76,8 @@ def handle_answer(message):
         users_list(message)
     elif message.text.lower() == 'заказать звонок':
         gain_info(message)
+    elif message.text.lower() == 'меню пользователя':
+        user_menu(message)
     else:
         answer = bot.send_message(message.chat.id, 'what?', reply_markup=keyboard_start)
         bot.register_next_step_handler(answer, handle_answer)
@@ -109,6 +113,13 @@ def final_bro(message):
     ans = bot.send_message(message.chat.id, 'Done! Request to call sent! '
                                       'Choose what you want?', reply_markup=keyboard_start)
     bot.register_next_step_handler(ans, handle_answer)
+
+
+def user_menu(message):
+    response = requests.get('http://localhost:8000/api/parsing/accounts/')
+    print(json.loads(response.text))
+    ans = bot.send_message(message.chat.id, 'sdsd')
+    bot.register_next_step_handler(ans, user_menu,)
 
 
 bot.polling()

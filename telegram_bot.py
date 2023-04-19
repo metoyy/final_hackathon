@@ -13,8 +13,8 @@ keyboard_usermenu = types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_usermenu_anon = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 button_courseslist = types.KeyboardButton('Courses List')
-button_consult = types.KeyboardButton('Заказать звонок')
-button_usermenu = types.KeyboardButton('Меню пользователя')
+button_consult = types.KeyboardButton('Leave a call')
+button_usermenu = types.KeyboardButton('User menu')
 button_linkacc = types.KeyboardButton('Link account')
 button_details = types.KeyboardButton('Account details')
 button_update_det = types.KeyboardButton('Update details')
@@ -139,7 +139,7 @@ def start_message(message):
     bot.send_message(message.chat.id, 'Hello this is Hackathon Unify project \
                      parser')
     answer = bot.send_message(message.chat.id, 'Choose what you want?', reply_markup=keyboard_start)
-    bot.register_next_step_handler(answer, what_menu(message.chat.username))
+    bot.register_next_step_handler(answer, handle_answer)
 
 
 @bot.message_handler(commands=['stop'])
@@ -150,9 +150,9 @@ def stop_message(message):
 def handle_answer(message):
     if message.text.lower() == 'courses list':
         users_list(message)
-    elif message.text.lower() == 'заказать звонок':
+    elif message.text.lower() == 'leave a call':
         gain_info(message)
-    elif message.text.lower() == 'меню пользователя':
+    elif message.text.lower() == 'user menu':
         user_menu(message)
     else:
         answer = bot.send_message(message.chat.id, 'what?', reply_markup=keyboard_start)
@@ -165,7 +165,7 @@ def handle_usermenu(message):
     elif message.text.lower() == 'main menu':
         start_message(message)
     else:
-        answer = bot.send_message(message.chat.id, 'what?', reply_markup=is_linked(message.chat.user))
+        answer = bot.send_message(message.chat.id, 'what?', reply_markup=is_linked(message.chat.username))
         bot.register_next_step_handler(answer, handle_usermenu)
 
 
@@ -263,8 +263,9 @@ def clarify_info1(message):
         ans = bot.send_message(message.chat.id, 'You already linked your account! Unlink first!',
                                reply_markup=keyboard_usermenu)
         bot.register_next_step_handler(ans, handle_usermenu)
-    ans = bot.send_message(message.chat.id, 'Write your email...')
-    bot.register_next_step_handler(ans, clarify_info2)
+    else:
+        ans = bot.send_message(message.chat.id, 'Write your email...')
+        bot.register_next_step_handler(ans, clarify_info2)
 
 
 def clarify_info2(message):

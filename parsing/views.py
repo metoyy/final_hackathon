@@ -109,3 +109,19 @@ class AccountDetails(APIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response({'msg': 'Success'}, status=201)
+
+
+class CheckView(APIView):
+    permission_classes = permissions.AllowAny,
+
+    def get(self, request):
+        try:
+            request.data['username']
+        except KeyError:
+            return Response({'msg': 'Key error! "username"'}, status=401)
+        try:
+            user = User.objects.get(telegram_username=request.data['username'])
+        except User.DoesNotExist:
+            return Response({'msg': 'User was not found!'}, status=400)
+        return Response({'msg': 'All OK!'}, status=200)
+

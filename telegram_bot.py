@@ -11,6 +11,8 @@ bot = telebot.TeleBot(token)
 keyboard_start = types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_usermenu = types.ReplyKeyboardMarkup(resize_keyboard=True)
 keyboard_usermenu_anon = types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard_init = types.ReplyKeyboardMarkup(resize_keyboard=True)
+keyboard_empty = types.ReplyKeyboardMarkup(resize_keyboard=True)
 
 button_courseslist = types.KeyboardButton('Courses List')
 button_consult = types.KeyboardButton('Leave a call')
@@ -21,6 +23,7 @@ button_update_det = types.KeyboardButton('Update details')
 button_unlink = types.KeyboardButton('Unlink account')
 button_mainmenu = types.KeyboardButton('Main menu')
 button_stop = types.KeyboardButton('/stop')
+button_start = types.KeyboardButton('/start')
 
 keyboard_start.add(button_courseslist)
 keyboard_start.add(button_consult)
@@ -46,6 +49,8 @@ keyboard_update_choose.add(button_firstname)
 keyboard_update_choose.add(button_lastname)
 keyboard_update_choose.add(button_username)
 keyboard_update_choose.add(button_prev)
+
+keyboard_init.add(button_start)
 
 
 class Info:
@@ -153,7 +158,7 @@ def start_message2(message):
 
 @bot.message_handler(commands=['stop'])
 def stop_message(message):
-    bot.send_message(message.chat.id, 'Goodbye!')
+    bot.send_message(message.chat.id, 'Goodbye!', reply_markup=keyboard_init)
 
 
 def handle_answer(message):
@@ -164,7 +169,7 @@ def handle_answer(message):
     elif message.text.lower() == 'user menu':
         user_menu(message)
     elif message.text.lower() == '/stop':
-        bot.send_message(message.chat.id, 'Goodbye!', reply_markup=None)
+        bot.send_message(message.chat.id, 'Goodbye!', reply_markup=keyboard_init)
         return 0
     else:
         answer = bot.send_message(message.chat.id, 'what?', reply_markup=keyboard_start)
@@ -239,7 +244,7 @@ def update_lastname(message):
 
 
 def gain_info(message):
-    number = bot.send_message(message.chat.id, 'Enter your number...')
+    number = bot.send_message(message.chat.id, 'Enter your number...', reply_markup=keyboard_empty)
     bot.register_next_step_handler(number, posts_list)
 
 
@@ -256,7 +261,7 @@ def users_list(message):
 def posts_list(message):
     global send_post
     send_post.add(number=message.text)
-    question = bot.send_message(message.chat.id, 'Enter your question... ')
+    question = bot.send_message(message.chat.id, 'Enter your question... ', reply_markup=keyboard_empty)
     bot.register_next_step_handler(question, final_bro)
 
 

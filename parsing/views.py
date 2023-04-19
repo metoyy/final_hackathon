@@ -32,7 +32,7 @@ class LeaveNumberView(APIView):
         data = request.data
         serializer = CallSerializer(data=data)
         serializer.is_valid(raise_exception=True)
-        serializer.save()
+        serializer.save(is_active=True)
         send_call_to_admins.delay(users=admin_users, number=data['number'],
                             text=data['question'], tg_user=data['telegram_user'])
         

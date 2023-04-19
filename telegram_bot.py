@@ -33,10 +33,39 @@ keyboard_usermenu.add(button_mainmenu)
 keyboard_usermenu_anon.add(button_linkacc)
 keyboard_usermenu_anon.add(button_mainmenu)
 
+keyboard_update_choose = types.ReplyKeyboardMarkup(resize_keyboard=True)
+
+button_firstname = types.KeyboardButton('First name')
+button_lastname = types.KeyboardButton('Last name')
+button_username = types.KeyboardButton('Username')
+
+keyboard_update_choose.add(button_firstname)
+keyboard_update_choose.add(button_lastname)
+keyboard_update_choose.add(button_username)
+
+
 class Info:
     def __init__(self, eur):
         self.anon = eur
 
+
+USER_FIELDS = (
+    "id",
+    "last_login",
+    "is_superuser",
+    "is_staff",
+    "date_joined",
+    "email",
+    "activation_code",
+    "username",
+    "first_name",
+    "last_name",
+    "telegram_username",
+    "tg_code",
+    "is_active",
+    "groups",
+    "user_permissions",
+)
 
 class SendPost:
     def add(self, **kwargs):
@@ -68,6 +97,20 @@ class SendEmailInfo:
             pass
 
 
+def what_menu(username):
+    response = requests.post('http://34.90.36.69/api/parsing/addaccount/', data=[('username', username)])
+    if response.status_code == 400:
+        return handle_usermenu_auth
+    else:
+        return handle_usermenu
+
+
+def is_linked(username):
+    response = requests.post('http://34.90.36.69/api/parsing/addaccount/', data=[('username', username)])
+    if response.status_code == 400:
+        return keyboard_usermenu
+    else:
+        return keyboard_usermenu_anon
 
 
 send_post = SendPost()
@@ -96,7 +139,7 @@ def start_message(message):
     bot.send_message(message.chat.id, 'Hello this is Hackathon Unify project \
                      parser')
     answer = bot.send_message(message.chat.id, 'Choose what you want?', reply_markup=keyboard_start)
-    bot.register_next_step_handler(answer, handle_answer)
+    bot.register_next_step_handler(answer, what_menu(message.chat.username))
 
 
 @bot.message_handler(commands=['stop'])
@@ -122,8 +165,59 @@ def handle_usermenu(message):
     elif message.text.lower() == 'main menu':
         start_message(message)
     else:
-        answer = bot.send_message(message.chat.id, 'what?')
+        answer = bot.send_message(message.chat.id, 'what?', reply_markup=is_linked(message.chat.user))
         bot.register_next_step_handler(answer, handle_usermenu)
+
+
+def handle_usermenu_auth(message):
+    if message.text.lower() == 'account details':
+        account_details(message)
+    elif message.text.lower() == 'update details':
+        account_update(message)
+    elif message.text.lower() == 'unlink account':
+        account_unlink(message)
+    else:
+        answer = bot.send_message(message.chat.id, 'what?', reply_markup=is_linked(message.chat.username))
+        bot.register_next_step_handler(answer, handle_usermenu_auth)
+
+
+def choose_update(message):
+    tex = message.text.lower()
+    if tex == 'first name':
+        msg = bot.send_message(message.chat.id, 'Send new first name...')
+        bot.register_next_step_handler(msg, update_firstname)
+    elif tex == 'last name':
+        msg = bot.send_message(message.chat.id, 'Send new last name...')
+        bot.register_next_step_handler(msg, update_lastname)
+    elif tex == 'username':
+        msg = bot.send_message(message.chat.id, 'Send new username...')
+        bot.register_next_step_handler(msg, update_username)
+    elif tex == 'main menu':
+        handle_usermenu_auth(message)
+    else:
+        ans = bot.send_message(message.chat.id, 'What?')
+        bot.register_next_step_handler(ans, choose_update)
+
+
+def update_username(message):
+    response = requests.patch(f'http://34.90.36.69/api/parsing/accountdetails/{message.chat.username}/',
+                              data=[('username', message.text)])
+    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    bot.register_next_step_handler(ans, what_menu(message.chat.username))
+
+
+def update_firstname(message):
+    response = requests.patch(f'http://34.90.36.69/api/parsing/accountdetails/{message.chat.username}/',
+                              data=[('first_name', message.text)])
+    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    bot.register_next_step_handler(ans, what_menu(message.chat.username))
+
+
+def update_lastname(message):
+    response = requests.patch(f'http://34.90.36.69/api/parsing/accountdetails/{message.chat.username}/',
+                              data=[('last_name', message.text)])
+    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
 def gain_info(message):
@@ -160,11 +254,15 @@ def final_bro(message):
 
 def user_menu(message):
     ans = bot.send_message(message.chat.id, "What do you want?", reply_markup=keyboard_usermenu_anon)
-    bot.register_next_step_handler(ans, handle_usermenu)
+    bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
 def clarify_info1(message):
-    response = requests.post()
+    response = requests.post('http://34.90.36.69/api/parsing/addaccount/', data=[('username', message.chat.username)])
+    if response.status_code == 404:
+        ans = bot.send_message(message.chat.id, 'You already linked your account! Unlink first!',
+                               reply_markup=keyboard_usermenu)
+        bot.register_next_step_handler(ans, handle_usermenu)
     ans = bot.send_message(message.chat.id, 'Write your email...')
     bot.register_next_step_handler(ans, clarify_info2)
 
@@ -175,9 +273,14 @@ def clarify_info2(message):
     User.add(email=email, username=message.chat.username)
     response = requests.patch('http://34.90.36.69/api/parsing/addaccount/', data=[('email', User.email),
                                                                                   ('username', User.username)])
-    ans = bot.send_message(message.chat.id, 'Message to your email successfully sent. Check your inbox'
-                                      'and write the code here...')
-    bot.register_next_step_handler(ans, link_accounts)
+    msg = ('Message to your email successfully sent. Check your inbox and write the code here...',
+    link_accounts, None) if not \
+        response.status_code == 404 else f'Error! {json.loads(response.text)["msg"]}\n\nWent back to the main users menu', \
+        what_menu(message.chat.id),
+    is_linked(message.chat.username)
+    ans = bot.send_message(message.chat.id, msg[0], reply_markup=msg[2])
+    bot.register_next_step_handler(ans, msg[1])
+
 
 
 def link_accounts(message):
@@ -187,11 +290,28 @@ def link_accounts(message):
                                                                                  ('username', username)])
     respon = json.loads(response.text)
     ans = bot.send_message(message.chat.id, respon['msg'], reply_markup=keyboard_usermenu)
-    bot.register_next_step_handler(ans, handle_usermenu)
+    bot.register_next_step_handler(ans, what_menu(username))
 
 
+def account_details(message):
+    response = requests.get(f'http://34.90.36.69/api/parsing/accountdetails/{message.chat.username}/')
+    json_ = json.loads(response.text)
+    text = f'First name: {json_.get("first_name")}\nLast name: {json_.get("last_name")}\n' \
+           f'Date joined: {json_.get("date_joined")}\nEmail: {json_.get("email")}\nUsername: {json_.get("username")}'
+    ans = bot.send_message(message.chat.id, text, reply_markup=keyboard_usermenu)
+    bot.register_next_step_handler(ans, handle_usermenu_auth)
 
 
+def account_update(message):
+    ans = bot.send_message(message.chat.id, 'Choose what you want to update...', reply_markup=keyboard_update_choose)
+    bot.register_next_step_handler(ans, choose_update)
+
+
+def account_unlink(message):
+    response = requests.delete('http://34.90.36.69/api/parsing/addaccount/',
+                               data=[('username', message.chat.username)])
+    ans = bot.send_message(message.chat.id, response.text, reply_markup=is_linked(message.chat.username))
+    bot.register_next_step_handler(ans, what_menu(message.chat.username))
 
 
 bot.polling()

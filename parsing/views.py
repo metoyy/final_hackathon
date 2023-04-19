@@ -93,3 +93,19 @@ class AddAccountView(APIView):
         user.save()
         return Response({'msg': 'Success'}, status=204)
 
+
+class AccountDetails(APIView):
+    permission_classes = permissions.AllowAny,
+
+    def get(self, request, pk):
+        user = User.objects.get(telegram_username=pk)
+        serializer = UserSerializer(instance=user)
+        return Response(serializer.data, status=200)
+
+    def patch(self, request, pk):
+        user = User.objects.get(telegram_username=pk)
+        data = request.data
+        serializer = UserSerializer(instance=user, data=data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response({'msg': 'Success'}, status=201)

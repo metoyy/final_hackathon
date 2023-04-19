@@ -7,6 +7,7 @@ from django_filters.rest_framework import DjangoFilterBackend
 from drf_yasg.utils import swagger_auto_schema
 from django.db.models import Q
 from django.contrib.auth import get_user_model
+from django_filters import FilterSet, RangeFilter
 
 from accounts.tasks import confirm_purchase_mail
 from course import serializers
@@ -24,12 +25,21 @@ class StandardResultPagination(PageNumberPagination):
     page_query_param = 'page'
 
 
+class PriceFilter(FilterSet):
+    price = RangeFilter()
+
+    class Meta:
+        model = Course
+        fields = 'price', 'category', 'language', 'mentors'
+
+
 class CoursesViewSet(ModelViewSet):
     queryset = Course.objects.all()
     pagination_class = StandardResultPagination
     filter_backends = (SearchFilter, DjangoFilterBackend)
     search_fields = ('title',)
-    filterset_fields = ('price', 'category', 'language',)
+    filterset_fields = ('category', 'language', 'mentors')
+    filterset_class = PriceFilter
 
     def get_serializer_class(self):
         if self.action == 'create':

@@ -3,9 +3,13 @@ from rest_framework import permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import *
+from django.contrib.auth import get_user_model
 
 from course import serializers
 from course.models import Course
+from .tasks import send_call_to_admins
+
+User = get_user_model()
 
 
 class AllCoursesView(APIView):
@@ -20,8 +24,16 @@ class LeaveNumberView(APIView):
     permission_classes = permissions.AllowAny,
 
     def post(self, request):
+        qs = User.objects.filter(is_superuser=True)
+        try:
+            admin_users = [x.email for x in qs]
+        except Exception as e:
+            print(e)
         data = request.data
         serializer = CallSerializer(data=data)
         serializer.is_valid(raise_exception=True)
         serializer.save()
+        send_call_to_admins.delay(users=admin_users, number=data['number'],
+                            text=data['question'], tg_user=data['telegram_user'])
+        
         return Response({'msg': 'success'}, status=200)

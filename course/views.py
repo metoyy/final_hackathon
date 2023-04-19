@@ -30,7 +30,7 @@ class PriceFilter(FilterSet):
 
     class Meta:
         model = Course
-        fields = 'price',
+        fields = 'price', 'category', 'language', 'mentors'
 
 
 class CoursesViewSet(ModelViewSet):

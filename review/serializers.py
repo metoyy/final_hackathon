@@ -1,7 +1,10 @@
 from rest_framework import serializers
 
 from review.models import Review
+from accounts.serializers import UserSerializer
+from django.contrib.auth import get_user_model
 
+User = get_user_model()
 
 class ReviewCreateSerializer(serializers.ModelSerializer):
     first_name = serializers.ReadOnlyField(source='user.first_name')
@@ -40,3 +43,9 @@ class ReviewSerializer(serializers.ModelSerializer):
     class Meta:
         model = Review
         fields = '__all__'
+
+    def to_representation(self, instance):
+        user = User.objects.get(id=instance.user.id)
+        represent = super().to_representation(instance)
+        represent['user'] = UserSerializer(user)
+        return represent
